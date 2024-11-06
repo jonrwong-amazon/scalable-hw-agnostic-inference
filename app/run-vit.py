@@ -11,6 +11,7 @@ from huggingface_hub import login
 from pydantic import BaseModel
 from PIL import Image
 import requests
+from fastapi.middleware.cors import CORSMiddleware
 
 pod_name=os.environ['POD_NAME']
 compiled_model_id=os.environ['COMPILED_MODEL_ID']
@@ -76,6 +77,17 @@ classify_image(image_url)
 # pipe("http://images.cocodataset.org/val2017/000000039769.jpg")
 
 app = FastAPI()
+
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,  # or ["*"] to allow all
+    allow_credentials=True,
+    allow_methods=["*"],  # allow all HTTP methods
+    allow_headers=["*"],  # allow all headers
+)
+
 io = gr.Interface(fn=classify_image,inputs=["text"],
     outputs = ["text","text"],
     title = compiled_model_id + ' in AWS EC2 ' + device + ' instance; pod name ' + pod_name)

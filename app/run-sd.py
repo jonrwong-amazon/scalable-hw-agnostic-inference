@@ -11,6 +11,7 @@ from typing import Optional
 from PIL import Image
 import base64
 from io import BytesIO
+from fastapi.middleware.cors import CORSMiddleware
 
 app_name=os.environ['APP']
 pod_name=os.environ['POD_NAME']
@@ -146,6 +147,17 @@ model_args={'prompt': prompt,'num_inference_steps': num_inference_steps,}
 image = pipe(**model_args).images[0]
 
 app = FastAPI()
+
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,  # or ["*"] to allow all
+    allow_credentials=True,
+    allow_methods=["*"],  # allow all HTTP methods
+    allow_headers=["*"],  # allow all headers
+)
+
 io = gr.Interface(fn=text2img,inputs=["text"],
     outputs = [gr.Image(height=512, width=512), "text"],
     title = model_id + ' in AWS EC2 ' + device + ' instance; pod name ' + pod_name)
