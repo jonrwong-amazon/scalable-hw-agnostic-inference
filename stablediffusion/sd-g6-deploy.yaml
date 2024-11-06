@@ -43,6 +43,10 @@ spec:
           initialDelaySeconds: 60
           periodSeconds: 10
         env:
+        - name: APP
+          value: "sd-g6"
+        - name: NODEPOOL
+          value: "g6-nodepool" 
         - name: NUM_OF_RUNS_INF
           value: "20"
         - name: DEVICE
