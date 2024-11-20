@@ -2,19 +2,19 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: mistral-r8g
-  name: mistral-r8g
+    app: mistral-c7g
+  name: mistral-c7g
 spec:
   selector:
     matchLabels:
-      app: mistral-r8g
+      app: mistral-c7g
   template:
     metadata:
       labels:
-        app: mistral-r8g
+        app: mistral-c7g
     spec:
       nodeSelector:
-        karpenter.sh/nodepool: memory-optimized-r8g
+        karpenter.sh/nodepool: mistral-c7g-np
       volumes:
       - name: dshm
         emptyDir:
@@ -32,9 +32,9 @@ spec:
         args: ["run-llama"]
         resources:
           limits:
-            cpu: 7910m
+            cpu: 8
           requests:
-            cpu: 7910m
+            cpu: 8
         ports:
           - containerPort: 8000
             protocol: TCP

@@ -33,9 +33,9 @@ spec:
         command: ["/run-vit.sh"]
         resources:
           limits:
-            cpu: 64
+            cpu: 2
           requests:
-            cpu: 64
+            cpu: 2
         env:
         - name: DEVICE
           value: "cpu"

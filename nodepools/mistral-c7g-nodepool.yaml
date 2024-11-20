@@ -1,7 +1,7 @@
 apiVersion: karpenter.sh/v1beta1
 kind: NodePool
 metadata:
-  name: compute-optimized-c8g
+  name: mistral-c7g-np
 spec:
   disruption:
     budgets:
@@ -13,25 +13,25 @@ spec:
   template:
     spec:
       nodeClassRef:
-        name: compute-optimized-c8g
+        name: mistral-c7g-np
       requirements:
       - key: kubernetes.io/arch
         operator: In
         values: ["arm64"]
       - key: karpenter.k8s.aws/instance-family
         operator: In
-        values: ["c8g"]
+        values: ["c7g"]
       - key: karpenter.sh/capacity-type
         operator: In
         values: ["on-demand"]
       - key: karpenter.k8s.aws/instance-size
         operator: In
-        values: ["xlarge"]
+        values: ["4xlarge"]
 ---
 apiVersion: karpenter.k8s.aws/v1beta1
 kind: EC2NodeClass
 metadata:
-  name: compute-optimized-c8g
+  name: mistral-c7g-np
 spec:
   amiFamily: AL2 
   role: $KarpenterNodeRole

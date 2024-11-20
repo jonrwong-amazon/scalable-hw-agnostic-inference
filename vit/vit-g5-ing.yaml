@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: bert-c7g-ing
+  name: vit-g5-ing
   annotations:
     kubernetes.io/ingress.class: alb
     alb.ingress.kubernetes.io/scheme: internet-facing
@@ -13,16 +13,15 @@ metadata:
     alb.ingress.kubernetes.io/healthy-threshold-count: '2'
     alb.ingress.kubernetes.io/unhealthy-threshold-count: '10'
     alb.ingress.kubernetes.io/success-codes: '200-301'
-    # alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80}]'
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80},{"HTTPS":443}]'
     alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:$AWS_REGION:$AWS_ACCOUNT_ID:certificate/$CERTIFICATE_ARN
     alb.ingress.kubernetes.io/backend-protocol: HTTP
-    alb.ingress.kubernetes.io/load-balancer-name: bert-c7g
+    alb.ingress.kubernetes.io/load-balancer-name: vitg5
     alb.ingress.kubernetes.io/target-group-attributes: stickiness.enabled=true,stickiness.lb_cookie.duration_seconds=60
     alb.ingress.kubernetes.io/actions.forward-multiple-tg: >
-      {"type":"forward","forwardConfig":{"targetGroups":[{"serviceName":"bert-c7g","servicePort":80,"weight":100}],"targetGroupStickinessConfig":{"enabled":true,"durationSeconds":200}}}
+      {"type":"forward","forwardConfig":{"targetGroups":[{"serviceName":"vit-g5","servicePort":80,"weight":100}],"targetGroupStickinessConfig":{"enabled":true,"durationSeconds":200}}}
   labels:
-    app: bert-c7g
+    app: vit-g5
 spec:
   ingressClassName: alb
   rules:

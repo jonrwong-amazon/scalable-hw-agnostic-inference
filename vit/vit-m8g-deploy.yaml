@@ -2,20 +2,22 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: sd-inf
-  name: sd-inf
+    app: vit-m8g
+  name: vit-m8g
 spec:
   selector:
     matchLabels:
-      app: sd-inf
+      app: vit-m8g
+      appalb: vit-serve
   template:
     metadata:
       labels:
-        app: sd-inf
+        app: vit-m8g
+        appalb: vit-serve
     spec:
       nodeSelector:
-        karpenter.sh/nodepool: amd-neuron
-      #serviceAccountName: appsimulator
+        karpenter.sh/nodepool: m8g-nodepool
+      # serviceAccountName: appsimulator
       schedulerName: my-scheduler
       volumes:
       - name: dshm
@@ -23,33 +25,27 @@ spec:
           medium: Memory
       containers:
       - name: app
-        image: $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/stablediffusion:amd64-neuron
+        image: $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/stablediffusion:aarch64-cpu
         imagePullPolicy: Always
         volumeMounts:
           - mountPath: /dev/shm
             name: dshm
-      #    - mountPath: /app
-      #      name: workdir
-        command: ["/run-sd.sh"]
-        args: ["run"]
+        command: ["/run-vit.sh"]
         resources:
-          requests:
-            aws.amazon.com/neuron: 1
           limits:
-            aws.amazon.com/neuron: 1
+            cpu: 2
+          requests:
+            cpu: 2
         env:
-        - name: APP
-          value: "sd-inf"
-        - name: NODEPOOL
-          value: "amd-neuron" 
         - name: DEVICE
-          value: "xla"
-        - name: MODEL_ID
-          value: "stabilityai/stable-diffusion-2-1-base"
+          value: "cpu"
         - name: COMPILED_MODEL_ID
-          value: "yahavb/optimum-neuron-sd21"
-        - name: NUM_OF_RUNS_INF
-          value: "20"
+          value: "google/vit-base-patch16-224"
+        - name: HUGGINGFACE_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: hf-secrets
+              key: HUGGINGFACE_TOKEN
         - name: POD_NAME
           valueFrom:
             fieldRef:

@@ -14,7 +14,7 @@ spec:
         app: sd-g5
     spec:
       nodeSelector:
-        karpenter.sh/nodepool: g5-nodepool
+        karpenter.sh/nodepool: g5-sd-nodepool
       volumes:
       - name: dshm
         emptyDir:
@@ -32,7 +32,7 @@ spec:
         args: ["run-sd"]
         resources:
           limits:
-            nvidia.com/gpu: 4
+            nvidia.com/gpu: 1
         ports:
           - containerPort: 8000
             protocol: TCP

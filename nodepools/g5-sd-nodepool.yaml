@@ -1,7 +1,7 @@
 apiVersion: karpenter.sh/v1beta1
 kind: NodePool
 metadata:
-  name: compute-optimized-c8g
+  name: g5-sd-nodepool
 spec:
   disruption:
     budgets:
@@ -13,25 +13,28 @@ spec:
   template:
     spec:
       nodeClassRef:
-        name: compute-optimized-c8g
+        name: g5-sd-nodepool
       requirements:
       - key: kubernetes.io/arch
         operator: In
-        values: ["arm64"]
-      - key: karpenter.k8s.aws/instance-family
+        values:
+        - amd64
+      - key: karpenter.k8s.aws/instance-gpu-name
         operator: In
-        values: ["c8g"]
+        values:
+        - a10g
       - key: karpenter.sh/capacity-type
         operator: In
-        values: ["on-demand"]
-      - key: karpenter.k8s.aws/instance-size
+        values:
+        - on-demand
+      - key: node.kubernetes.io/instance-type
         operator: In
-        values: ["xlarge"]
+        values: ["g5.xlarge"]
 ---
 apiVersion: karpenter.k8s.aws/v1beta1
 kind: EC2NodeClass
 metadata:
-  name: compute-optimized-c8g
+  name: g5-sd-nodepool
 spec:
   amiFamily: AL2 
   role: $KarpenterNodeRole

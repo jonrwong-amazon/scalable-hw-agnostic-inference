@@ -14,7 +14,7 @@ spec:
         app: mistral-m8g
     spec:
       nodeSelector:
-        karpenter.sh/nodepool: m8g-nodepool
+        karpenter.sh/nodepool: mistral-m8g-nodepool
       volumes:
       - name: dshm
         emptyDir:
@@ -32,9 +32,9 @@ spec:
         args: ["run-llama"]
         resources:
           limits:
-            cpu: 64
+            cpu: 8
           requests:
-            cpu: 64
+            cpu: 8
         ports:
           - containerPort: 8000
             protocol: TCP

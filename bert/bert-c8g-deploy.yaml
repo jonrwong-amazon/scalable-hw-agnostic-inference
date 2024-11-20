@@ -2,19 +2,19 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: mistral-r8g
-  name: mistral-r8g
+    app: bert-c8g
+  name: bert-c8g
 spec:
   selector:
     matchLabels:
-      app: mistral-r8g
+      app: bert-c8g
   template:
     metadata:
       labels:
-        app: mistral-r8g
+        app: bert-c8g
     spec:
       nodeSelector:
-        karpenter.sh/nodepool: memory-optimized-r8g
+        karpenter.sh/nodepool: compute-optimized-c8g
       volumes:
       - name: dshm
         emptyDir:
@@ -28,13 +28,13 @@ spec:
             name: dshm
           - mountPath: /app
             name: workdir
-        command: ["/run-llama.sh"]
-        args: ["run-llama"]
+        command: ["/run-bert.sh"]
+        args: ["run-bert"]
         resources:
           limits:
-            cpu: 7910m
+            cpu: 2
           requests:
-            cpu: 7910m
+            cpu: 2
         ports:
           - containerPort: 8000
             protocol: TCP
@@ -48,9 +48,9 @@ spec:
         - name: DEVICE
           value: "cpu"
         - name: MODEL_ID
-          value: "mistralai/Mistral-7B-Instruct-v0.3"
+          value: "distilbert-base-uncased-finetuned-sst-2-english"
         - name: COMPILED_MODEL_ID
-          value: "mistralai/Mistral-7B-Instruct-v0.3"
+          value: "yahavb/distilbert-base-uncased-finetuned-sst-2-english-neuron"
         - name: POD_NAME
           valueFrom:
             fieldRef:
@@ -60,8 +60,6 @@ spec:
             secretKeyRef:
               name: hf-secrets
               key: HUGGINGFACE_TOKEN
-        - name: MAX_NEW_TOKENS
-          value: "50"
       volumes:
       - name: workdir
         emptyDir: {}
