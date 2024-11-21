@@ -25,8 +25,9 @@ elif device=='cuda':
   from transformers import AutoModelForCausalLM,BitsAndBytesConfig
   quantization_config = BitsAndBytesConfig(load_in_4bit=True,bnb_4bit_use_double_quant=True,bnb_4bit_compute_dtype=torch.float16)
 elif device == 'cpu':
-  from transformers import AutoModelForCausalLM,BitsAndBytesConfig
-  quantization_config = BitsAndBytesConfig(load_in_4bit=True,bnb_4bit_use_double_quant=True,bnb_4bit_compute_dtype=torch.float16)
+  # from transformers import AutoModelForCausalLM,BitsAndBytesConfig
+  # quantization_config = BitsAndBytesConfig(load_in_4bit=True,bnb_4bit_use_double_quant=True,bnb_4bit_compute_dtype=torch.float16)
+  from transformers import AutoModelForCausalLM
 
 from transformers import AutoTokenizer
 
@@ -57,8 +58,8 @@ if device=='xla':
 elif device=='cuda': 
   model = AutoModelForCausalLM.from_pretrained(model_id,use_cache=True,device_map='auto',torch_dtype=torch.float16,quantization_config=quantization_config,)
 elif device=='cpu':
-  # model=AutoModelForCausalLM.from_pretrained(model_id)
-  model = AutoModelForCausalLM.from_pretrained(model_id,use_cache=True,device_map='auto',torch_dtype=torch.float16,quantization_config=quantization_config,)
+  model=AutoModelForCausalLM.from_pretrained(model_id)
+  # model = AutoModelForCausalLM.from_pretrained(model_id,use_cache=True,device_map='auto',torch_dtype=torch.float16,quantization_config=quantization_config,)
 
 gentext("write a poem")
 
