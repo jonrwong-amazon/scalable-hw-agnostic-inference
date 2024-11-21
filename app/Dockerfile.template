@@ -8,7 +8,7 @@ RUN python -m pip install gradio
 RUN python -m pip install "uvicorn[standard]"
 RUN python -m pip install fastapi
 RUN python -m pip install matplotlib Pillow
-RUN pipe install bitstandbytes
+RUN python -m pip install bitsandbytes
 
 RUN apt-get update
 RUN mkdir -p /etc/apt/keyrings/
