@@ -14,7 +14,7 @@ spec:
         app: mistral-inf
     spec:
       nodeSelector:
-        karpenter.sh/nodepool: inf2.8xlarge
+        karpenter.sh/nodepool: amd-neuron
       volumes:
       - name: dshm
         emptyDir:
@@ -48,9 +48,9 @@ spec:
         - name: DEVICE
           value: "xla"
         - name: MODEL_ID
-          value: "mistralai/Mistral-7B-Instruct-v0.3"
+          value: "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
         - name: COMPILED_MODEL_ID
-          value: "yahavb/Mistral-7B-Instruct-v0-3-neuron"
+          value: "yahavb/TinyLlama-1.1B-Chat-v1.0-neuron"
         - name: POD_NAME
           valueFrom:
             fieldRef:

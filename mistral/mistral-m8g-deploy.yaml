@@ -48,9 +48,9 @@ spec:
         - name: DEVICE
           value: "cpu"
         - name: MODEL_ID
-          value: "mistralai/Mistral-7B-Instruct-v0.3"
+          value: "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
         - name: COMPILED_MODEL_ID
-          value: "mistralai/Mistral-7B-Instruct-v0.3"
+          value: "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
         - name: POD_NAME
           valueFrom:
             fieldRef:
